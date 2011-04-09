@@ -1,0 +1,47 @@
+del.hnu {
+    text-decoration: none;
+}
+.hnu { 
+  font-size:0.7em; 
+  background-color: #f60;
+}
+.hnu-col {
+    min-width: 35px;
+}
+.hnu-up, .hnu-down, .hnu-new {
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    padding: 1px 3px;
+    color: #fff;
+    float:left;
+    margin: 3px 1px 0 0px;
+    font-size: 0.6em;
+    min-width: 6px;
+    text-align: center;
+}
+.hnu-up { background-color: #86c444; }
+.hnu-down { background-color:#e76363; opacity: 0.6; }
+.hnu-votes {
+    padding: 0 2px;
+    color: #f60;
+    background-color: transparent;
+}
+.hnu-karma {
+    color: #000;
+    padding: 0 2px;
+}
+
+.hnu-spin {
+    -o-transform: rotate(1440deg);
+    -o-transition: all 6s linear;
+
+    -moz-transform: rotate(1440deg);
+    -moz-transition: all 6s linear;
+
+    -webkit-transform: rotate(1440deg);
+    -webkit-transition: all 6s linear;
+
+    transform: rotate(1440deg);
+    transition: transform 6s linear;
+}
