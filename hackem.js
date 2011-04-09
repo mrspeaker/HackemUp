@@ -23,10 +23,10 @@
 
 // Loadem Up...
 window.bookmarklet = (function(opts){fullFunc(opts)})({ 
-    css : ["http://localhost/~mrspeaker/exp/bookmarklets/hackemup.css?q=19"],
+    css : [hnuBase + "hackemup.css?q=20"],
     js  : [
-        "http://localhost/~mrspeaker/exp/bookmarklets/hackemup.js",
-        "http://localhost/~mrspeaker/exp/bookmarklets/hackemtimer.js" 
+        hnuBase + "hackemup.js",
+        hnuBase + "hackemtimer.js" 
     ],
     ready : function(){
 
@@ -38,7 +38,8 @@ window.bookmarklet = (function(opts){fullFunc(opts)})({
         };
 
         // Start the show.
-        hnutimer.init(function(){ 
+        hackemup.init();
+        hnutimer.init(function() { 
             // When the timer's done...
             hackemup.fetch(); 
         });

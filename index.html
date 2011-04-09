@@ -1,10 +1,63 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>HackemUp: By Mr Speaker. A HackerNews bookmarklet</title>
+    <style type="text/css" media="screen">
+        body {
+            font-family: Verdana;
+            font-size: 10pt;
+            color: #000;
+            
+        }
+        h1 {
+            font-size: 12pt;
+            font-weight: normal;
+            background-color: #f60;
+            padding: 5px;
+            
+        }
+        #container {
+            background-color: #f6f6ef;
+            width: 600px;
+            margin: 0 auto;
+        }
+        p {
+            padding: 0 1em;
+        }
+        a{
+            color: #666;
+        }
+    </style>
 </head>
 <body>
-<a title="Bookmarklet" href="javascript:(function(){var a=document.getElementsByTagName('head')[0],b=document.createElement('script');b.type='text/javascript';b.src='http://localhost/~mrspeaker/exp/bookmarklets/hackem.js?'+Math.floor(Math.random()*99999);a.appendChild(b);})(); void 0" target="_blank">
-    ##########
-</a>
+    <div id="container">
+        <h1><strong>HackemUp</strong>: A Hacker News bookmarklet</h1>
+        <p>
+            Keep track of what's changed on HackerNews since the last time you looked.
+        </p>
+        <p>
+            Bookmarklet: <a
+                title="Hackem Up: a HackerNews bookmarklet" 
+                href="javascript:(function(){window.hnuBase='http://localhost/~mrspeaker/exp/bookmarklets/hackemup/';var a=document.getElementsByTagName('head')[0],b=document.createElement('script');b.type='text/javascript';b.src=hnuBase+'hackem.js?'+Math.floor(Math.random()*99999);a.appendChild(b);})(); void 0" target="_blank">
+                HackemUp - A HN Bookmarklet
+            </a>
+        </p>
+        <p>Highlights and updates new articles, articles that are rising or falling fast (drop more than 3), as well as updating comment counts, 
+        points, times, and your karma.</p>
+        <p><strong>Directions</strong>
+            <ol>
+                <li>Open <a href="http://news.ycombinator.com/">Hacker News</a>.</li>
+                <li>Run the bookmarklet above on the HN page (in Chrome, just drag the link onto the tab - for others, drag the link to the bookmark bar, then switch to NH, then click the bookmark link.)</li>
+                <li>Read HN.</li>
+                <li>Every couple of minutes, the page will magically refresh, with changes displayed.</li>
+                <li>If you move to another tab, but leave HN open, no updates will happen until you get back.</li>
+            </ol>
+
+        </p>
+        <p>
+            More info at <a href="http://www.mrspeaker.net/2011/04/10/hackernews-bookmarklet/">Mr Speaker's Hompage</a>.
+        </p>
+        <p>&nbsp;</p>
+    </div>
 </body>
 </html>

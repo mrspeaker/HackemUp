@@ -4,11 +4,7 @@
     v0.1
     
     Todo:
-        transforms for FF/opera
         Animate first width change
-        webkitanim only works in chrome...
-        Store old doc instead of parse each time
-        Test in O,FF,Safari
 */
 var hackemup = {
     
@@ -16,6 +12,12 @@ var hackemup = {
         body: "table:first",
         logo: "body table:first table:first tbody tr:first td:first a:first img",
         firstColumn: "body > center > table tbody tr:eq(3) td > table > tbody > tr > td:first"
+    },
+    
+    init: function() {
+        // Animate the first column
+        $(this.selecta.firstColumn)
+            .animate({ width: 35 }, 400);
     },
 
     fetch: function(){
@@ -42,7 +44,7 @@ var hackemup = {
 
         // Replace the current page DOM with the latest DOM
         lastDoc.$.replaceWith(newDoc.$);
-
+        
         // Stretch the first column
         $(this.selecta.firstColumn).addClass("hnu-col");
 
@@ -85,7 +87,7 @@ var hackemup = {
 
     // Update the DOM to include the last lot of info
     updateArticle: function(newDoc, oldDoc) {
-        if(newDoc.rank !== oldDoc.rank && (newDoc.rank !== oldDoc.rank + 1)) {
+        if(newDoc.rank < oldDoc.rank || oldDoc.rank - newDoc.rank > 2) {
             $("<span></span>")
                 .addClass("hnu")
                 .addClass(newDoc.rank > oldDoc.rank ? "hnu-down" : "hnu-up")

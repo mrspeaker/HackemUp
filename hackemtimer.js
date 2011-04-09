@@ -2,6 +2,8 @@
 // Will only update when tab is focused.
 var hnutimer = {
     refreshTime: 60000,
+    waitOnFocusTime: 1500,
+
     lastCheck: null,
     timerId: null,
     focusedTime: null,
@@ -11,6 +13,8 @@ var hnutimer = {
             "blur": function(){ hnutimer.onBlur(); }
         });
         this.onTimerExpire = onTimerExpire;
+        // Init onfocus to avoid first time load delay
+        this.focusedTime = new Date().getTime() - this.waitOnFocusTime;
         this.update();
     },
     update: function(){
@@ -26,11 +30,11 @@ var hnutimer = {
         }
 
         if(doFetch) {
-            if(rightNow - this.focusedTime > 1000){
+            if(rightNow - this.focusedTime >= this.waitOnFocusTime){
                 this.onTimerExpire && this.onTimerExpire();
                 this.lastCheck = rightNow;
             } else {
-                refreshTime = 1000;
+                refreshTime = this.waitOnFocusTime;
             }
         }
         this.timerId = setTimeout(function(){ hnutimer.update(); }, refreshTime);
