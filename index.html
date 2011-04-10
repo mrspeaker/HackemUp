@@ -93,13 +93,12 @@
             Keep track of what's changed on HackerNews main page since the last time you looked.
         </p>
         <p>
-            <span class="hnu hnu-up">2</span><span class="hnu-comments">&#x25B2;</span> Show HN: This is what a rising article looks like<br/>
+            <span class="hnu hnu-up">1</span><span class="hnu-comments">&#x25B2;</span> Show HN: This is what a rising article looks like<br/>
             <span class="hnu hnu-down">4</span><span class="hnu-comments">&#x25B2;</span> Netcraft confirms that this article is dying fast.<br/>
             <span class="hnu hnu-new">+</span><span class="hnu-comments">&#x25B2;</span> New article released. Underneath you can see the updated stats.<br/>
             <div class="hnu-comments indent">
                 <span class="hnu hnu-votes">75</span>
                 88 points by mrspeaker
-                <span class="hnu hnu-votes">2 hours</span>
                 3 hours ago |
                 <span class="hnu hnu-votes">8</span>
                 14 comments
@@ -110,12 +109,13 @@
             <a
                 class="bigbutton"
                 title="Hackem Up: a HackerNews bookmarklet"
-                href="javascript:(function(){window.hnuBase='https://github.com/mrspeaker/HackemUp/raw/master/';var a=document.getElementsByTagName('head')[0],b=document.createElement('script');b.type='text/javascript';b.src=hnuBase+'hackem.js?'+Math.floor(Math.random()*99999);a.appendChild(b);})(); void 0" target="_blank">
+                data-git="https://github.com/mrspeaker/HackemUp/raw/master/"
+                href="javascript:(function(){window.hnuBase='http://localhost/~mrspeaker/exp/bookmarklets/hackemup/';var a=document.getElementsByTagName('head')[0],b=document.createElement('script');b.type='text/javascript';b.src=hnuBase+'hackem.js?'+Math.floor(Math.random()*99999);a.appendChild(b);})(); void 0" target="_blank">
                 HackemUp - A HN Bookmarklet
             </a>
         </p>
         <p>Highlights and updates new articles, articles that are rising or falling fast (drop more than 3), as well as updating comment counts,
-        points, times, and your karma. Updates every couple of minutes - but if you move to another tab (and leave HN open) no updates will happen until you get back. Awww!</p>
+        points, and your karma. Updates every couple of minutes - but if you move to another tab (and leave HN open) no updates will happen until you get back.</p>
         <p><strong>Directions</strong>
             <ol>
                 <li>Open <a href="http://news.ycombinator.com/">Hacker News</a>.</li>
@@ -123,7 +123,6 @@
                 <li>Read HN.</li>
                 <li>Every couple of minutes, the page will magically refresh, with changes displayed.</li>
             </ol>
-
         </p>
         <p>
             More info at <a href="http://www.mrspeaker.net/2011/04/10/hackernews-bookmarklet/">Mr Speaker's Hompage</a>.

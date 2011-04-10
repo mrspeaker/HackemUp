@@ -1,29 +1,14 @@
 /*
     Welcome to a Hacker News Bookmarklet...
     "Hack'em Up" by Mr Speaker
-    v0.1
+    v1.0
 
-    Screen play:
-        Drag bookmarklet to a tab that is opened to
-             http://www.ycombinator.com/news
-        Every X minutes the page will be refreshed and
-        changes will be highlighted.
-
-    Written and directed by:
-        var _ = mrspeaker
-            twitter = @_
-            mail = _@gmail.com,
-            tubes = http://_.net;
-
-    Also staring:
-        jQuery Bookmarklet - version 1.0
-        Originally written by: Brett Barros
-        With modifications by: Paul Irish
+    jQuery Bookmarklet loader/initialiser
 */
 
-// Loadem Up...
+// Loadem Up! 
 window.bookmarklet = (function(opts){fullFunc(opts)})({
-    css : [hnuBase + "hackemup.css?q=20"],
+    css : [hnuBase + "hackemup.css"],
     js  : [
         hnuBase + "hackemup.js",
         hnuBase + "hackemtimer.js"
@@ -46,8 +31,9 @@ window.bookmarklet = (function(opts){fullFunc(opts)})({
     }
 });
 
-
 // jQuery bookmarklet magic...
+// ... by Brett Barros (& Paul Irish)
+// ... http://www.latentmotion.com/downloads/blank-bookmarklet-v1.js
 function fullFunc(a){function d(b){if(b.length===0){a.ready();return false}
 $.getScript(b[0],function(){d(b.slice(1))})}function e(b){$.each(b,function(c,f){$("<link>")
 .attr({href:f,rel:"stylesheet"}).appendTo("head")})}a.jqpath=a.

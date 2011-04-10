@@ -28,8 +28,9 @@ del.hnu {
     background-color: transparent;
 }
 .hnu-karma {
-    color: #000;
+    color: #f6f6f6;
     padding: 0 2px;
+    font-size: 0.7em;
 }
 
 .hnu-spin {

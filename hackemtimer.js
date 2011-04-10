@@ -1,7 +1,7 @@
 /*
     Welcome to a Hacker News Bookmarklet...
     "Hack'em Up" by Mr Speaker
-    v0.1
+    v1.0
 
     Timer module: Will only update when tab is focused.
 */

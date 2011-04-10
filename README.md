@@ -1,14 +1,15 @@
-# Hackem Up: A Hacker News bookmarklet
+# Hack'em Up: A Hacker News bookmarklet
 
 Welcome to a Hacker News Bookmarklet...
 "Hack'em Up" by Mr Speaker
-v0.1
+v1.0
 
 Screen play:
     Drag bookmarklet to a tab that is opened to 
          http://www.ycombinator.com/news
-    Every X minutes the page will be refreshed and
-    changes will be highlighted.
+    Every 2 minutes the page will be refreshed and
+    changes (to ranks, comments, votes, karma)
+    will be highlighted.
 
 Written and directed by:
     var _ = mrspeaker

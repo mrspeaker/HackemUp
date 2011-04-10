@@ -1,7 +1,7 @@
 /*
     Welcome to a Hacker News Bookmarklet...
     "Hack'em Up" by Mr Speaker
-    v0.1
+    v1.0
 
     DOM wranglin' a go-go.
 */
@@ -99,7 +99,7 @@ var hackemup = {
 
     // Update the DOM to include the last lot of info
     updateArticle: function(newDoc, oldDoc) {
-        if(newDoc.rank < oldDoc.rank || oldDoc.rank - newDoc.rank > 2) {
+        if(newDoc.rank < oldDoc.rank || newDoc.rank - oldDoc.rank > 3) {
             $("<span></span>")
                 .addClass("hnu")
                 .addClass(newDoc.rank > oldDoc.rank ? "hnu-down" : "hnu-up")
@@ -121,13 +121,6 @@ var hackemup = {
                 .addClass('hnu hnu-votes')
                 .text(oldDoc.comments)
                 .insertBefore(newDoc.$comments());
-        }
-
-        if(newDoc.posted !== oldDoc.posted) {
-            $("<span></span>")
-                .addClass("hnu hnu-votes")
-                .text(oldDoc.posted.replace(" ago  |", ""))
-                .insertBefore(newDoc.$posted());
         }
     },
 
