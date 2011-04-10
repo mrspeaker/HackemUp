@@ -20,3 +20,4 @@ Also staring:
     jQuery Bookmarklet - version 1.0
     Originally written by: Brett Barros
     With modifications by: Paul Irish
+

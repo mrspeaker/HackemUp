@@ -2,32 +2,44 @@
     Welcome to a Hacker News Bookmarklet...
     "Hack'em Up" by Mr Speaker
     v0.1
-    
-    Todo:
-        Animate first width change
+
+    DOM wranglin' a go-go.
 */
 var hackemup = {
-    
+
+    loadfailz: 0,
+
     selecta: {
         body: "table:first",
         logo: "body table:first table:first tbody tr:first td:first a:first img",
         firstColumn: "body > center > table tbody tr:eq(3) td > table > tbody > tr > td:first"
     },
-    
+
     init: function() {
         // Animate the first column
         $(this.selecta.firstColumn)
             .animate({ width: 35 }, 400);
     },
 
-    fetch: function(){
+    fetch: function() {
         var _this = this,
             logo = $(this.selecta.logo).addClass("hnu-spin");
 
         // Fetch the new HTML
-        $("<div></div>").load("/ " + this.selecta.body, function(){
+        $("<div></div>").load("/ " + this.selecta.body, function(response, status) {
             logo.removeClass("hnu-spin");
-            _this.update($(this));
+
+            if(status !== "success") {
+                if(_this.loadfailz++ > 0) {
+                    return;
+                }
+                // Retry once, after 1.5 seconds...
+                setTimeout(function(){ _this.fetch(); }, 1500);
+                return;
+            }
+
+            _this.loadfailz = 0;
+            _this.update($(response));
         });
     },
 
@@ -44,7 +56,7 @@ var hackemup = {
 
         // Replace the current page DOM with the latest DOM
         lastDoc.$.replaceWith(newDoc.$);
-        
+
         // Stretch the first column
         $(this.selecta.firstColumn).addClass("hnu-col");
 
@@ -132,7 +144,7 @@ var hackemup = {
 
 // Encapsulate an entire HN page
 function hndoc($doc) {
-    this.$ = $doc;    
+    this.$ = $doc;
     this.$header = function() {
         return this._header || (this._header = this.$.find("tbody tr:first table"));
     };
@@ -149,9 +161,9 @@ function hndoc($doc) {
     this.isLoggedIn = this.$userNode().find("a:first").text().indexOf("login") === -1;
     this.karma = ! this.isLoggedIn ? -1 : parseInt(this.$karma().textContent.replace(/[^0-9]/g,""), 10);
     this.articleList = this.$articles()
-            .filter(function(ind) { 
+            .filter(function(ind) {
                 // Every third TR is the start of an article
-                return ind % 3 === 0; 
+                return ind % 3 === 0;
             })
             .map(function() {
                 // Turn them into articles
@@ -162,7 +174,7 @@ function hndoc($doc) {
 // Encapsulate an individual article
 function hnarticle($row) {
     this.$ = $row;
-    this.$rank = function(){ 
+    this.$rank = function(){
         return this._rank || (this._rank = this.$.find("td:first"));
     };
     this.$votes = function() {

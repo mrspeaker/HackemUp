@@ -1,5 +1,10 @@
-// Timer for fetching updates.
-// Will only update when tab is focused.
+/*
+    Welcome to a Hacker News Bookmarklet...
+    "Hack'em Up" by Mr Speaker
+    v0.1
+
+    Timer module: Will only update when tab is focused.
+*/
 var hnutimer = {
     refreshTime: 2 * (60 * 1000),
     waitOnFocusTime: 1500,

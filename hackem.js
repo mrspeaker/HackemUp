@@ -2,9 +2,9 @@
     Welcome to a Hacker News Bookmarklet...
     "Hack'em Up" by Mr Speaker
     v0.1
-    
+
     Screen play:
-        Drag bookmarklet to a tab that is opened to 
+        Drag bookmarklet to a tab that is opened to
              http://www.ycombinator.com/news
         Every X minutes the page will be refreshed and
         changes will be highlighted.
@@ -14,7 +14,7 @@
             twitter = @_
             mail = _@gmail.com,
             tubes = http://_.net;
- 
+
     Also staring:
         jQuery Bookmarklet - version 1.0
         Originally written by: Brett Barros
@@ -22,13 +22,13 @@
 */
 
 // Loadem Up...
-window.bookmarklet = (function(opts){fullFunc(opts)})({ 
+window.bookmarklet = (function(opts){fullFunc(opts)})({
     css : [hnuBase + "hackemup.css?q=20"],
     js  : [
         hnuBase + "hackemup.js",
-        hnuBase + "hackemtimer.js" 
+        hnuBase + "hackemtimer.js"
     ],
-    ready : function(){
+    ready : function() {
 
         // Only works on the main page
         var loc = window.document.location;
@@ -39,9 +39,9 @@ window.bookmarklet = (function(opts){fullFunc(opts)})({
 
         // Start the show.
         hackemup.init();
-        hnutimer.init(function() { 
+        hnutimer.init(function() {
             // When the timer's done...
-            hackemup.fetch(); 
+            hackemup.fetch();
         });
     }
 });
