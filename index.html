@@ -7,14 +7,14 @@
             font-family: Verdana;
             font-size: 10pt;
             color: #000;
-            
+
         }
         h1 {
             font-size: 12pt;
             font-weight: normal;
             background-color: #f60;
             padding: 5px;
-            
+
         }
         #container {
             background-color: #f6f6ef;
@@ -27,6 +27,41 @@
         a{
             color: #666;
         }
+        .hnu {
+          font-size:0.9em;
+          background-color: #f60;
+        }
+        .hnu-up, .hnu-down, .hnu-new {
+            -webkit-border-radius: 6px;
+            -moz-border-radius: 6px;
+            border-radius: 6px;
+            padding: 1px 3px;
+            color: #fff;
+            float:left;
+            margin: 3px 1px 0 0px;
+            font-size: 0.6em;
+            min-width: 6px;
+            text-align: center;
+        }
+        .hnu-up { background-color: #86c444; }
+        .hnu-down { background-color:#e76363; opacity: 0.6; }
+        .hnu-votes {
+            padding: 0 2px;
+            color: #f60;
+            background-color: transparent;
+        }
+        .hnu-rank {
+            color: #828282;
+        }
+        .hnu-comments {
+            font-size: 7pt;
+            color: #828282;
+            padding-left: 5px;
+            margin-top: -15px;
+        }
+        .indent {
+            margin-left: 40px;
+        }
     </style>
 </head>
 <body>
@@ -36,21 +71,34 @@
             Keep track of what's changed on HackerNews since the last time you looked.
         </p>
         <p>
+            <span class="hnu hnu-up">2</span><span class="hnu-comments">&#x25B2;</span> Show HN: This is what a rising article looks like<br/>
+            <span class="hnu hnu-down">4</span><span class="hnu-comments">&#x25B2;</span> Netcraft confirms that this article is dying fast.<br/>
+            <span class="hnu hnu-new">+</span><span class="hnu-comments">&#x25B2;</span> New article released. Underneath you can see the updated stats.<br/>
+            <div class="hnu-comments indent">
+                <span class="hnu hnu-votes">75</span>
+                88 points by mrspeaker
+                <span class="hnu hnu-votes">2 hours</span>
+                3 hours ago |
+                <span class="hnu hnu-votes">8</span>
+                14 comments
+            </div>
+
+        </p>
+        <p>
             Bookmarklet: <a
-                title="Hackem Up: a HackerNews bookmarklet" 
-                href="javascript:(function(){window.hnuBase='http://localhost/~mrspeaker/exp/bookmarklets/hackemup/';var a=document.getElementsByTagName('head')[0],b=document.createElement('script');b.type='text/javascript';b.src=hnuBase+'hackem.js?'+Math.floor(Math.random()*99999);a.appendChild(b);})(); void 0" target="_blank">
+                title="Hackem Up: a HackerNews bookmarklet"
+                href="javascript:(function(){window.hnuBase='https://github.com/mrspeaker/HackemUp/raw/master/';var a=document.getElementsByTagName('head')[0],b=document.createElement('script');b.type='text/javascript';b.src=hnuBase+'hackem.js?'+Math.floor(Math.random()*99999);a.appendChild(b);})(); void 0" target="_blank">
                 HackemUp - A HN Bookmarklet
             </a>
         </p>
-        <p>Highlights and updates new articles, articles that are rising or falling fast (drop more than 3), as well as updating comment counts, 
-        points, times, and your karma.</p>
+        <p>Highlights and updates new articles, articles that are rising or falling fast (drop more than 3), as well as updating comment counts,
+        points, times, and your karma. Updates every couple of minutes - but if you move to another tab (and leave HN open) no updates will happen until you get back. Awww!</p>
         <p><strong>Directions</strong>
             <ol>
                 <li>Open <a href="http://news.ycombinator.com/">Hacker News</a>.</li>
                 <li>Run the bookmarklet above on the HN page (in Chrome, just drag the link onto the tab - for others, drag the link to the bookmark bar, then switch to NH, then click the bookmark link.)</li>
                 <li>Read HN.</li>
                 <li>Every couple of minutes, the page will magically refresh, with changes displayed.</li>
-                <li>If you move to another tab, but leave HN open, no updates will happen until you get back.</li>
             </ol>
 
         </p>

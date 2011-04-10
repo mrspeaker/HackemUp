@@ -1,7 +1,7 @@
 // Timer for fetching updates.
 // Will only update when tab is focused.
 var hnutimer = {
-    refreshTime: 60000,
+    refreshTime: 2 * (60 * 1000),
     waitOnFocusTime: 1500,
 
     lastCheck: null,
