@@ -45,7 +45,7 @@ var hackemup = {
 
     update: function(fetched) {
         // Remove added changes from last round
-        // (because we re-parse the doc: TODO: just store the last doc
+        // (because we re-parse the doc. TODO: just store the last doc
         // then we don't have to be careful about how we add new elements)
         $(this.selecta.body).find(".hnu").remove();
 
@@ -78,6 +78,9 @@ var hackemup = {
                     _this.newArticle(newVersion);
                 }
             });
+            
+        // Hide runs of rises (just means another story tanked)
+        this.removeRuns(newDoc);
 
         // Check if karma has changed
         if(newDoc.karma !== lastDoc.karma) {
@@ -132,6 +135,47 @@ var hackemup = {
             .hide()
             .prependTo(newDoc.$rank())
             .fadeIn();
+    },
+    
+    // Remove runs of +1 rises (when another story nose-dives)
+    removeRuns: function(doc) {
+        var prev = { rise: 0 },
+            run = [],
+            testRun = function(run) {
+                console.log("Run:", run, run.length, run.length > 2);
+                // If run > 2, kill the icon
+                run.length > 2 && run.forEach(function(el){
+                    el.$.fadeOut("fast", function(){
+                        $(this).remove();
+                    });
+                });
+            };
+
+        // Don't need to map & sort if find always returns in order... does it?
+        doc.$.find(".hnu-up")
+            .map(function() {
+                return {
+                    rise: parseInt($(this).text(), 10),
+                    rank: parseInt(this.nextSibling.textContent.replace(/[^0-9]/g,""), 10),
+                    $: $(this)
+                };
+            })
+            .sort(function (a,b) {
+                return a.rank > b.rank ? 1 : (a.rank < b.rank ? -1 : 0);
+            })
+            .toArray()
+            .forEach(function(el) {
+                if(el.rise !== prev.rise || el.rank !== prev.rank + 1) {
+                    testRun(run);
+                    run = [el];
+                    prev = el;
+                    return;
+                }
+                run.push(el);
+                prev = el;
+            });
+        console.log("Last kill runn...");
+        testRun(run);
     }
 };
 
