@@ -142,7 +142,6 @@ var hackemup = {
         var prev = { rise: 0 },
             run = [],
             testRun = function(run) {
-                console.log("Run:", run, run.length, run.length > 2);
                 // If run > 2, kill the icon
                 run.length > 2 && run.forEach(function(el){
                     el.$.fadeOut("fast", function(){
@@ -174,7 +173,6 @@ var hackemup = {
                 run.push(el);
                 prev = el;
             });
-        console.log("Last kill runn...");
         testRun(run);
     }
 };
