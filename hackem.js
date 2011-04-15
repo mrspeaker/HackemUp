@@ -1,7 +1,7 @@
 /*
     Welcome to a Hacker News Bookmarklet...
     "Hack'em Up" by Mr Speaker
-    v1.0
+    v1.1
 
     jQuery Bookmarklet loader/initialiser
 */

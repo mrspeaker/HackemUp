@@ -1,7 +1,7 @@
 /*
     Welcome to a Hacker News Bookmarklet...
     "Hack'em Up" by Mr Speaker
-    v1.0
+    v1.1
 
     Timer module: Will only update when tab is focused.
 */
@@ -9,10 +9,11 @@ var hnutimer = {
     refreshTime: 2 * (60 * 1000),
     waitOnFocusTime: 1500,
 
-    lastCheck: null,
     timerId: null,
+    lastCheck: null,
     focusedTime: null,
-    init: function(onTimerExpire){
+
+    init: function(onTimerExpire) {
         $(window).bind({
             "focus": function(){ hnutimer.onFocus(); },
             "blur": function(){ hnutimer.onBlur(); }
@@ -22,7 +23,7 @@ var hnutimer = {
         this.focusedTime = new Date().getTime() - this.waitOnFocusTime;
         this.update();
     },
-    update: function(){
+    update: function() {
         var doFetch = true,
             refreshTime = this.refreshTime,
             previous = this.lastCheck,
@@ -44,11 +45,11 @@ var hnutimer = {
         }
         this.timerId = setTimeout(function(){ hnutimer.update(); }, refreshTime);
     },
-    onFocus: function(){
+    onFocus: function() {
         this.focusedTime = new Date().getTime();
         this.update();
     },
-    onBlur: function(){
+    onBlur: function() {
         clearTimeout(this.timerId);
     }
 };

@@ -1,13 +1,11 @@
 /*
     Welcome to a Hacker News Bookmarklet...
     "Hack'em Up" by Mr Speaker
-    v1.0
+    v1.1
 
     DOM wranglin' a go-go.
 */
 var hackemup = {
-
-    loadfailz: 0,
 
     selecta: {
         body: "table:first",
@@ -21,7 +19,7 @@ var hackemup = {
             .animate({ width: 35 }, 400);
     },
 
-    fetch: function() {
+    fetch: function(isRetry) {
         var _this = this,
             logo = $(this.selecta.logo).addClass("hnu-spin");
 
@@ -29,17 +27,16 @@ var hackemup = {
         $("<div></div>").load("/ " + this.selecta.body, function(response, status) {
             logo.removeClass("hnu-spin");
 
-            if(status !== "success") {
-                if(_this.loadfailz++ > 0) {
-                    return;
-                }
-                // Retry once, after 1.5 seconds...
-                setTimeout(function(){ _this.fetch(); }, 1500);
+            if(status == "success") {
+                _this.update($(response));
                 return;
             }
 
-            _this.loadfailz = 0;
-            _this.update($(response));
+            // Retry once
+            !isRetry && setTimeout(function(){
+                _this.fetch(true);
+            }, 1500);
+            return;
         });
     },
 
@@ -63,7 +60,7 @@ var hackemup = {
         // Check if articles have changed
         newDoc
             .articleList
-            .each(function(){
+            .each(function() {
                 var newVersion = this,
                     oldVersion = lastDoc
                         .articleList
@@ -78,7 +75,7 @@ var hackemup = {
                     _this.newArticle(newVersion);
                 }
             });
-            
+
         // Hide runs of rises (just means another story tanked)
         this.removeRuns(newDoc);
 
@@ -136,22 +133,13 @@ var hackemup = {
             .prependTo(newDoc.$rank())
             .fadeIn();
     },
-    
+
     // Remove runs of +1 rises (when another story nose-dives)
     removeRuns: function(doc) {
-        var prev = { rise: 0 },
-            run = [],
-            testRun = function(run) {
-                // If run > 2, kill the icon
-                run.length > 2 && run.forEach(function(el){
-                    el.$.fadeOut("fast", function(){
-                        $(this).remove();
-                    });
-                });
-            };
 
-        // Don't need to map & sort if find always returns in order... does it?
         doc.$.find(".hnu-up")
+
+            // Sort and extract ranks and rises
             .map(function() {
                 return {
                     rise: parseInt($(this).text(), 10),
@@ -159,38 +147,52 @@ var hackemup = {
                     $: $(this)
                 };
             })
-            .sort(function (a,b) {
-                return a.rank > b.rank ? 1 : (a.rank < b.rank ? -1 : 0);
-            })
+            .sort(function (a, b) { return a.rank - b.rank; })
             .toArray()
-            .forEach(function(el) {
-                if(el.rise !== prev.rise || el.rank !== prev.rank + 1) {
-                    testRun(run);
-                    run = [el];
-                    prev = el;
-                    return;
+
+            // Group into runs
+            .reduce(function (acc, el) {
+                var head = acc[acc.length - 1],
+                    prev = head[head.length - 1];
+                if(el.rise === prev.rise && el.rank === prev.rank + 1) {
+                    head.push(el);
                 }
-                run.push(el);
-                prev = el;
+                else {
+                    acc.push([el]);
+                }
+                return acc;
+            }, [[[]]])
+
+            // Grab, flatten, and remove long runs
+            .filter(function (el) { return el.length > 2; })
+            .reduce(function (acc, el) { return acc.concat(el); }, [])
+            .forEach(function (el) {
+                el.$.fadeOut("fast", function() {
+                    $(this).remove();
+                });
             });
-        testRun(run);
     }
 };
-
 // Encapsulate an entire HN page
 function hndoc($doc) {
     this.$ = $doc;
+    
+    var cache = {};
     this.$header = function() {
-        return this._header || (this._header = this.$.find("tbody tr:first table"));
+        return cache.header ||
+            (cache.header = this.$.find("tbody tr:first table"));
     };
     this.$articles = function() {
-        return this._articles || (this._articles = this.$.find("tbody tr:eq(3) table tr").slice(0, -2));
+        return cache.articles ||
+            (cache.articles = this.$.find("tbody tr:eq(3) table tr").slice(0, -2));
     };
     this.$userNode = function(){
-        return this._userNode || (this._userNode = this.$header().find("tr > td:last").children());
+        return cache.userNode ||
+            (cache.userNode = this.$header().find("tr > td:last").children());
     };
     this.$karma = function(){
-        return this._karma || (this._karma = this.$userNode().contents()[1]);
+        return cache.karma ||
+            (cache.karma = this.$userNode().contents()[1]);
     };
 
     this.isLoggedIn = this.$userNode().find("a:first").text().indexOf("login") === -1;
@@ -209,17 +211,23 @@ function hndoc($doc) {
 // Encapsulate an individual article
 function hnarticle($row) {
     this.$ = $row;
+
+    var cache = {};
     this.$rank = function(){
-        return this._rank || (this._rank = this.$.find("td:first"));
+        return cache.rank ||
+            (cache.rank = this.$.find("td:first"));
     };
     this.$votes = function() {
-        return this._votes || (this._votes = this.$.next().find("td:eq(1) span:first"));
+        return cache.votes ||
+            (cache.votes = this.$.next().find("td:eq(1) span:first"));
     };
     this.$comments = function() {
-        return this._comments || (this._comments = this.$.next().find("td:eq(1) a:last"));
+        return cache.comments ||
+            (cache.comments = this.$.next().find("td:eq(1) a:last"));
     };
     this.$posted = function() {
-        return this._posted || (this._posted = this.$.next().find("td:eq(1)").contents()[3]);
+        return cache.posted ||
+            (cache.posted = this.$.next().find("td:eq(1)").contents()[3]);
     };
 
     this.id = parseInt((this.$.next().find("td:eq(1) span").attr("id") + "").slice(6), 10);
@@ -227,5 +235,5 @@ function hnarticle($row) {
     this.votes = parseInt(this.$votes().text(), 10);
     this.comments = (parseInt(this.$comments().text(), 10) || 0);
     this.posted = this.$posted().textContent;
-    // Not grabbed yet: postedBy, article Name, URL
+    // Not grabbed: postedBy, article Name, URL
 }
