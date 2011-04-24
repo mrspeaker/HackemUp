@@ -28,6 +28,12 @@ window.bookmarklet = (function(opts){fullFunc(opts)})({
             // When the timer's done...
             hackemup.fetch();
         });
+        
+        // Open all links in a new tab.
+        // ... I don't usually like to do such a thing, but by public demand...
+        $("a").live("click", function(){
+            $(this).attr({ target: "_blank" });
+        });
     }
 });
 
