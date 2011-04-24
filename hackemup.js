@@ -150,18 +150,21 @@ var hackemup = {
             .sort(function (a, b) { return a.rank - b.rank; })
             .toArray()
 
-            // Group into runs
+            // Group into runs (todo: fix list of list of lists!)
             .reduce(function (acc, el) {
-                var head = acc[acc.length - 1],
-                    prev = head[head.length - 1];
-                if(el.rise === prev.rise && el.rank === prev.rank + 1) {
+                var head = acc.length ? acc[acc.length - 1] : [],
+                    isSeq = function(prev, el){
+                        return el.rise === prev.rise && 
+                            el.rank === prev.rank + 1;
+                    };
+                if(head.length && isSeq(head[head.length - 1], el)) {
                     head.push(el);
                 }
                 else {
                     acc.push([el]);
                 }
                 return acc;
-            }, [[[]]])
+            }, [])
 
             // Grab, flatten, and remove long runs
             .filter(function (el) { return el.length > 2; })
