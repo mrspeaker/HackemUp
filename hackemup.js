@@ -76,8 +76,9 @@ var hackemup = {
                 }
             });
 
-        // Hide runs of rises (just means another story tanked)
-        this.removeRuns(newDoc);
+        // Hide runs of rises (probably means another story tanked)
+        this.removeRuns(newDoc.$.find(".hnu-up"));
+        this.removeRuns(newDoc.$.find(".hnu-down"));
 
         // Check if karma has changed
         if(newDoc.karma !== lastDoc.karma) {
@@ -99,7 +100,8 @@ var hackemup = {
 
     // Update the DOM to include the last lot of info
     updateArticle: function(newDoc, oldDoc) {
-        if(newDoc.rank < oldDoc.rank || newDoc.rank - oldDoc.rank > 3) {
+        // Article rose (or sank a lot)
+        if(newDoc.rank < oldDoc.rank || newDoc.rank - oldDoc.rank > 4) {
             $("<span></span>")
                 .addClass("hnu")
                 .addClass(newDoc.rank > oldDoc.rank ? "hnu-down" : "hnu-up")
@@ -109,6 +111,7 @@ var hackemup = {
                 .fadeIn();
         }
 
+        // Votes changed
         if(newDoc.votes !== oldDoc.votes) {
             $("<span></span>")
                 .addClass("hnu hnu-votes")
@@ -116,6 +119,7 @@ var hackemup = {
                 .insertBefore(newDoc.$votes());
         }
 
+        // Comment count change
         if(newDoc.comments !== oldDoc.comments) {
             $("<span></span>")
                 .addClass('hnu hnu-votes')
@@ -135,26 +139,19 @@ var hackemup = {
     },
 
     // Remove runs of +1 rises (when another story nose-dives)
-    removeRuns: function(doc) {
-
-        doc.$.find(".hnu-up")
-
-            // Sort and extract ranks and rises
-            .map(function() {
+    removeRuns: function(elements) {
+        var extractValuesFromElement = function(el) {
                 return {
-                    rise: parseInt($(this).text(), 10),
-                    rank: parseInt(this.nextSibling.textContent.replace(/[^0-9]/g,""), 10),
-                    $: $(this)
+                    rise: parseInt($(el).text(), 10),
+                    rank: parseInt(el.nextSibling.textContent.replace(/[^0-9]/g,""), 10),
+                    $: $(el)
                 };
-            })
-            .sort(function (a, b) { return a.rank - b.rank; })
-            .toArray()
-
-            // Group into runs (todo: fix list of list of lists!)
-            .reduce(function (acc, el) {
+            },
+            sortByRank = function(a, b) { return a.rank - b.rank; },
+            groupIntoRuns = function(acc, el) {
                 var head = acc.length ? acc[acc.length - 1] : [],
                     isSeq = function(prev, el){
-                        return el.rise === prev.rise && 
+                        return el.rise === prev.rise &&
                             el.rank === prev.rank + 1;
                     };
                 if(head.length && isSeq(head[head.length - 1], el)) {
@@ -164,22 +161,30 @@ var hackemup = {
                     acc.push([el]);
                 }
                 return acc;
-            }, [])
-
-            // Grab, flatten, and remove long runs
-            .filter(function (el) { return el.length > 2; })
-            .reduce(function (acc, el) { return acc.concat(el); }, [])
-            .forEach(function (el) {
+            },
+            returnAnyLongRuns = function(el) { return el.length > 2; },
+            flattenRuns = function(acc, el) { return acc.concat(el); },
+            removeIndicator = function(el) {
                 el.$.fadeOut("fast", function() {
                     $(this).remove();
                 });
-            });
+            };
+
+        // Get all map/reduce-y on the green circles
+        elements
+            .get()
+            .map( extractValuesFromElement )
+            .sort( sortByRank )
+            .reduce( groupIntoRuns, [] )
+            .filter( returnAnyLongRuns )
+            .reduce( flattenRuns, [] )
+            .forEach( removeIndicator );
     }
 };
 // Encapsulate an entire HN page
 function hndoc($doc) {
     this.$ = $doc;
-    
+
     var cache = {};
     this.$header = function() {
         return cache.header ||
