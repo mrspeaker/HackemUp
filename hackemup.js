@@ -234,8 +234,10 @@ function hnarticle($row) {
             (cache.comments = this.$.next().find("td:eq(1) a:last"));
     };
     this.$posted = function() {
+        var contents = this.$.next().find("td:eq(1)").contents();
+        // If ! length > 3 then it's a "special" YC post
         return cache.posted ||
-            (cache.posted = this.$.next().find("td:eq(1)").contents()[3]);
+            (cache.posted = contents.length > 3 ? contents[3] : contents[0]);
     };
 
     this.id = parseInt((this.$.next().find("td:eq(1) span").attr("id") + "").slice(6), 10);
