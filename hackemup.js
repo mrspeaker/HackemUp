@@ -10,7 +10,7 @@ var hackemup = {
     selecta: {
         body: "table:first",
         logo: "body table:first table:first tbody tr:first td:first a:first img",
-        firstColumn: "body > center > table tbody tr:eq(3) td > table > tbody > tr > td:first"
+        firstColumn: "body > center > table tbody tr:eq(4) td > table > tbody > tr > td:first"
     },
 
     init: function() {
@@ -187,12 +187,13 @@ function hndoc($doc) {
 
     var cache = {};
     this.$header = function() {
+
         return cache.header ||
-            (cache.header = this.$.find("tbody tr:first table"));
+            (cache.header = this.$.find("tbody tr:eq(1) table"));
     };
     this.$articles = function() {
         return cache.articles ||
-            (cache.articles = this.$.find("tbody tr:eq(3) table tr").slice(0, -2));
+            (cache.articles = this.$.find("tbody tr:eq(4) table tr").slice(0, -2));
     };
     this.$userNode = function(){
         return cache.userNode ||
