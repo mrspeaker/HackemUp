@@ -8,7 +8,7 @@
 
 // Loadem Up! 
 (function(opts){fullFunc(opts)})({
-    css : [hnuBase + "hackemup.css"],
+    css : [hnuBase + "hackemup.css?v=2"],
     js  : [
         hnuBase + "hackemup.js",
         hnuBase + "hackemtimer.js"
