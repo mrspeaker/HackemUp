@@ -18,7 +18,6 @@
         // Only works on the main page
         var loc = window.document.location;
         if(loc.hostname !== "news.ycombinator.com" || (loc.pathname !== "/" && loc.pathname !== "/news") ){
-            alert("Only works on Hacker News front page:\nhttp://news.ycombinator.com/");
             return;
         };
 
