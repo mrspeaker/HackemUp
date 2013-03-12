@@ -6,7 +6,7 @@
     jQuery Bookmarklet loader/initialiser
 */
 
-// Loadem Up! 
+// Loadem Up!
 (function(opts){fullFunc(opts)})({
     css : [hnuBase + "hackemup.css?v=2"],
     js  : [
@@ -28,7 +28,7 @@
             // When the timer's done...
             hackemup.fetch();
         });
-        
+
         // Open all links in a new tab.
         // ... I don't usually like to do such a thing, but by public demand...
         $("body a").live("click", function(){
